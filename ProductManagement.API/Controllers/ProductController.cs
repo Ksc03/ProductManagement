@@ -3,9 +3,11 @@ using ProductManagement.Application.Common;
 using ProductManagement.Application.Common.Models;
 using ProductManagement.Application.DTOs.Product;
 using ProductManagement.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProductManagement.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/[controller]")]
 public class ProductsController : ControllerBase

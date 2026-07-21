@@ -18,6 +18,8 @@ public static class DependencyInjection
 
         services.AddValidatorsFromAssemblyContaining<CreateProductValidator>();
 
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
+
         return services;
     }
 }
