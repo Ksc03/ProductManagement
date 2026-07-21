@@ -1,9 +1,10 @@
-using Serilog;
-using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using ProductManagement.API.Extensions;
 using ProductManagement.Application.DependencyInjection;
+using ProductManagement.Infrastructure.Data;
 using ProductManagement.Infrastructure.DependencyInjection;
+using Serilog;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,6 +66,8 @@ builder.Services.AddSwaggerGen(options =>
         });
 });
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 app.UseGlobalExceptionMiddleware();
 app.UseSerilogRequestLogging();
@@ -82,7 +85,18 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+app.MapHealthChecks("/health");
+
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ApplicationDbContext>();
+
+    context.Database.Migrate();
+}
 
 app.Run();
 
