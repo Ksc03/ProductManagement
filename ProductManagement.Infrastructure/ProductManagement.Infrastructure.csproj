@@ -14,9 +14,7 @@
   <ItemGroup>
     <Folder Include="Identify\" />
     <Folder Include="Logging\" />
-    <Folder Include="DependencyInjection\" />
     <Folder Include="Services\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
   <ItemGroup>
